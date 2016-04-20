@@ -24,6 +24,7 @@ git post
 
 ```bashrc
 export GIT_POST_GITHUB_ACCESS_TOKEN="TOKEN"
+export PATH=$PATH:path/to/git-post/bin
 ```
 
 ### github access token setting
