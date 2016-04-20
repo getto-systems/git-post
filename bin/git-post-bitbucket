@@ -5,5 +5,5 @@ git_post_bitbucket(){
 
 	data='{"title": "'$current'", "source": {"branch": {"name": "'$current'"}, "repository": {"full_name": "'$destination'"}}}'
 
-	echo curl -i -H "Authorization: Bearer $GIT_POST_BITBUCKET_ACCESS_TOKEN" -H "Content-Type: application/json" -X POST https://api.bitbucket.org/2.0/repositories/${destination}/pullrequests/ -d "$data"
+	curl -s -H "Authorization: Bearer $GIT_POST_BITBUCKET_ACCESS_TOKEN" -H "Content-Type: application/json" -X POST https://api.bitbucket.org/2.0/repositories/${destination}/pullrequests/ -d "$data" > /dev/null
 }
