@@ -1,3 +1,11 @@
 #!/bin/bash
 
-echo "pull request to bitbucket"
+git_post_bitbucket(){
+	local data
+
+	data='{"title": "'$current'", "source": {"branch": {"name": "'$current'"}, "repository": {"full_name": "'$destination'"}}}'
+
+	echo curl -i -H "Authorization: Bearer $GIT_POST_BITBUCKET_ACCESS_TOKEN" -H "Content-Type: application/json" -X POST https://api.bitbucket.org/2.0/repositories/${destination}/pullrequests/ -d "$data"
+}
+
+git_post_bitbucket "$@"
