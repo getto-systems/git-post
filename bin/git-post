@@ -1,10 +1,16 @@
 #!/bin/bash
 
 git_post(){
+	local remote_name
 	local remote
 	local host
 
-	remote=$(git remote -v | grep origin.*fetch)
+	remote_name=$1; shift
+	if [ -z "$remote_name" ]; then
+		remote_name=origin
+	fi
+
+	remote=$(git remote -v | grep $remote_name*fetch)
 
 	case "$remote" in
 		*@github* | *https://github.com*)
@@ -23,22 +29,16 @@ git_post(){
 	git_post_pull_request
 }
 git_post_pull_request(){
-	local remote_name
-	local remote
+	local remote_detail
 	local push_url
 	local destination
 	local head_branch
 	local current
 
-	remote_name=$1; shift
-	if [ -z "$remote_name" ]; then
-		remote_name=origin
-	fi
-
 	echo "pull request -> $remote_name"
-	remote=$(git remote show $remote_name)
+	remote_detail=$(git remote show $remote_name)
 
-	push_url=$(echo "$remote" | grep 'Push.*URL')
+	push_url=$(echo "$remote_detail" | grep 'Push.*URL')
 	push_url=${push_url#*Push*URL: }
 	push_url=${push_url%.git}
 
@@ -51,7 +51,7 @@ git_post_pull_request(){
 			;;
 	esac
 
-	head_branch=$(echo "$remote" | grep 'HEAD.*branch')
+	head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
 	head_branch=${head_branch#*HEAD*branch: }
 
 	current=$(git current)
