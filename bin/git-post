@@ -1,0 +1,20 @@
+#!/bin/bash
+
+git_post(){
+	local remote
+	remote=$(git remote -v | grep origin.*fetch)
+
+	case "$remote" in
+		*@github* | *https://github.com*)
+			git-post-github "$@"
+			;;
+		*@bitbucket*)
+			git-post-bitbucket "$@"
+			;;
+		*)
+			echo "git-post: unknown hosting service. noop"
+			;;
+	esac
+}
+
+git_post "$@"
