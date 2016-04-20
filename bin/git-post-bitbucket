@@ -7,5 +7,3 @@ git_post_bitbucket(){
 
 	echo curl -i -H "Authorization: Bearer $GIT_POST_BITBUCKET_ACCESS_TOKEN" -H "Content-Type: application/json" -X POST https://api.bitbucket.org/2.0/repositories/${destination}/pullrequests/ -d "$data"
 }
-
-git_post_bitbucket "$@"
