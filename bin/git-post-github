@@ -14,6 +14,7 @@ git_post_github(){
 		remote_name=origin
 	fi
 
+	echo "pull request -> $remote_name"
 	remote=$(git remote show $remote_name)
 
 	push_url=$(echo "$remote" | grep 'Push.*URL')
@@ -35,7 +36,7 @@ git_post_github(){
 	current=$(git current)
 	data='{"title: "'$current'", "body": "test-body", "head": "'$current'", "base": "'$head_branch'"}'
 
-	echo curl "https://api.github.com/repos/$destination/pulls" -d "$data"
+	curl "https://api.github.com/repos/$destination/pulls" -d "$data"
 }
 
 git_post_github "$@"
