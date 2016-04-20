@@ -38,7 +38,11 @@ git_post_github(){
 	body="test-body"
 	data='{"title: "'$current'", "body": "'$body'", "head": "'$current'", "base": "'$head_branch'"}'
 
+	echo
+	echo body:
 	echo $body
+	echo
+
 	curl "https://api.github.com/repos/$destination/pulls" -d "$data"
 }
 
