@@ -36,8 +36,7 @@ git_post_github(){
 
 	current=$(git current)
 
-	read -p "pull request body: " body
-	data='{"title": "'$current'", "body": "'$body'", "head": "'$current'", "base": "'$head_branch'"}'
+	data='{"title": "'$current'", "head": "'$current'", "base": "'$head_branch'"}'
 
 	curl -i -H "Authorization: token $GIT_POST_GITHUB_ACCESS_TOKEN" "https://api.github.com/repos/$destination/pulls" -d "$data"
 }
