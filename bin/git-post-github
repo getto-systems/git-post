@@ -34,8 +34,11 @@ git_post_github(){
 	head_branch=${head_branch#*HEAD*branch: }
 
 	current=$(git current)
-	data='{"title: "'$current'", "body": "test-body", "head": "'$current'", "base": "'$head_branch'"}'
 
+	body="test-body"
+	data='{"title: "'$current'", "body": "'$body'", "head": "'$current'", "base": "'$head_branch'"}'
+
+	echo $body
 	curl "https://api.github.com/repos/$destination/pulls" -d "$data"
 }
 
