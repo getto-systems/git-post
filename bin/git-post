@@ -56,7 +56,9 @@ git_post_pull_request(){
 
 	current=$(git current)
 
+	echo "post..."
 	git_post_$host
+	echo "done."
 }
 
 git_post "$@"
