@@ -1,44 +1,8 @@
 #!/bin/bash
 
 git_post_github(){
-	local remote_name
-	local remote
-	local push_url
-	local destination
-	local head_branch
-	local current
-	local body
 	local data
-
-	remote_name=$1; shift
-	if [ -z "$remote_name" ]; then
-		remote_name=origin
-	fi
-
-	echo "pull request -> $remote_name"
-	remote=$(git remote show $remote_name)
-
-	push_url=$(echo "$remote" | grep 'Push.*URL')
-	push_url=${push_url#*Push*URL: }
-	push_url=${push_url%.git}
-
-	case "$push_url" in
-		*@*)
-			destination=${push_url##*:}
-			;;
-		*)
-			destination=$(basename $(dirname $push_url))/$(basename $push_url)
-			;;
-	esac
-
-	head_branch=$(echo "$remote" | grep 'HEAD.*branch')
-	head_branch=${head_branch#*HEAD*branch: }
-
-	current=$(git current)
-
 	data='{"title": "'$current'", "head": "'$current'", "base": "'$head_branch'"}'
 
-	curl -i -H "Authorization: token $GIT_POST_GITHUB_ACCESS_TOKEN" "https://api.github.com/repos/$destination/pulls" -d "$data"
+	curl -H "Authorization: token $GIT_POST_GITHUB_ACCESS_TOKEN" "https://api.github.com/repos/$destination/pulls" -d "$data" > /dev/null
 }
-
-git_post_github "$@"
