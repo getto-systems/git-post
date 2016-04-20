@@ -10,7 +10,7 @@ git_post(){
 		remote_name=origin
 	fi
 
-	remote=$(git remote -v | grep $remote_name*fetch)
+	remote=$(git remote -v | grep $remote_name.*fetch)
 
 	case "$remote" in
 		*@github* | *https://github.com*)
