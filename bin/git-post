@@ -37,6 +37,7 @@ git_post_pull_request(){
 
 	echo "check remote..."
 	remote_detail=$(git remote show $remote_name)
+	echo
 
 	push_url=$(echo "$remote_detail" | grep 'Push.*URL')
 	push_url=${push_url#*Push*URL: }
@@ -57,7 +58,6 @@ git_post_pull_request(){
 	current=$(git current)
 
 	echo "PR: $current -> $destination : $remote_name/$head_branch"
-	echo "post..."
 	git_post_$host
 	echo "done."
 }
