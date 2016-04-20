@@ -4,5 +4,5 @@ git_post_github(){
 	local data
 	data='{"title": "'$current'", "head": "'$current'", "base": "'$head_branch'"}'
 
-	curl -H "Authorization: token $GIT_POST_GITHUB_ACCESS_TOKEN" "https://api.github.com/repos/$destination/pulls" -d "$data" > /dev/null
+	curl -s -H "Authorization: token $GIT_POST_GITHUB_ACCESS_TOKEN" "https://api.github.com/repos/$destination/pulls" -d "$data" > /dev/null
 }
