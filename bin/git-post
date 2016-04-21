@@ -3,6 +3,8 @@
 git_post(){
 	local remote_name
 	local remote
+	local pub
+	local user_name
 	local host
 
 	remote_name=$1; shift
@@ -24,6 +26,11 @@ git_post(){
 			exit 1
 			;;
 	esac
+
+	pub=$(git remote -v | grep pub.*fetch)
+	pub=${pub#*	}
+	pub=${pub%.git *}
+	user_name=$(basename $(dirname $pub))
 
 	. git-post-$host
 	git_post_pull_request
