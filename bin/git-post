@@ -3,6 +3,8 @@
 git_post(){
 	local remote_name
 	local remote
+	local pub
+	local user_name
 	local host
 
 	remote_name=$1; shift
@@ -13,7 +15,7 @@ git_post(){
 	remote=$(git remote -v | grep $remote_name.*fetch)
 
 	case "$remote" in
-		*@github* | *https://github.com*)
+		*git://github.com* | *@github* | *https://github.com*)
 			host=github
 			;;
 		*@bitbucket*)
@@ -24,6 +26,11 @@ git_post(){
 			exit 1
 			;;
 	esac
+
+	pub=$(git remote -v | grep pub.*fetch)
+	pub=${pub#*	}
+	pub=${pub%.git *}
+	user_name=$(basename $(dirname $pub))
 
 	. git-post-$host
 	git_post_pull_request
@@ -59,7 +66,6 @@ git_post_pull_request(){
 
 	echo "PR: $current -> $destination : $remote_name/$head_branch"
 	git_post_$host
-	echo "done."
 }
 
 git_post "$@"
