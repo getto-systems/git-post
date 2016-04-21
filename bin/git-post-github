@@ -2,7 +2,45 @@
 
 git_post_github(){
 	local data
+	local config_root
+	local config
+	local token
+
 	data='{"title": "'$current'", "head": "'$current'", "base": "'$head_branch'"}'
 
-	curl -s -H "Authorization: token $GIT_POST_GITHUB_ACCESS_TOKEN" "https://api.github.com/repos/$destination/pulls" -d "$data" > /dev/null
+	config_root=$HOME/.git-access-token
+	mkdir -p $config_root
+	chmod 700 $config_root
+
+	config=$config_root/github-$user_name
+
+	git_post_github_get_token
+	git_post_github_request
+}
+git_post_github_request(){
+	local result
+	result=$(curl -i -s -H "Authorization: token $token" "https://api.github.com/repos/$destination/pulls" -d "$data")
+
+	if [ -n "$(echo "$result" | grep "Status: 201 Created")" ]; then
+		echo done
+	else
+		if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
+			git_post_github_read_token
+			git_post_github_request
+		else
+			echo "$result" | head -1
+			echo "$result" | grep '"message":' | sed 's/"message": "\(.*\)",\?$/\1/'
+		fi
+	fi
+}
+git_post_github_get_token(){
+	if [ -f $config ]; then
+		token=$(cat $config)
+	else
+		git_post_github_read_token
+	fi
+}
+git_post_github_read_token(){
+	read -p "personal access token for [$user_name]: " token
+	echo $token > $config && chmod 600 $config
 }
