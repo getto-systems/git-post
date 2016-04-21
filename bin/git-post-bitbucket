@@ -54,7 +54,8 @@ git_post_bitbucket_get_token(){
 	echo
 	echo "https://bitbucket.org/site/oauth2/authorize?client_id=$client_id&response_type=code"
 	echo
-	read -ps "paste code: " code
+	read -sp "paste code: " code
+	echo
 	access_token=$(curl -s -X POST -u "${client_id}:${secret}" https://bitbucket.org/site/oauth2/access_token -d grant_type=authorization_code -d code=$code)
 	git_post_bitbucket_parse_access_token
 }
@@ -82,7 +83,8 @@ git_post_bitbucket_get_client_id(){
 	if [ -f $config_client_id ]; then
 		client_id=$(cat $config_client_id)
 	else
-		read -ps "consumer client_id for [$user_name]: " client_id
+		read -sp "consumer client_id for [$user_name]: " client_id
+		echo
 		echo $client_id > $config_client_id && chmod 600 $config_client_id
 	fi
 }
@@ -90,7 +92,8 @@ git_post_bitbucket_get_secret(){
 	if [ -f $config_secret ]; then
 		secret=$(cat $config_secret)
 	else
-		read -ps "consumer secret: " secret
+		read -sp "consumer secret: " secret
+		echo
 		echo $secret > $config_secret && chmod 600 $config_secret
 	fi
 }
