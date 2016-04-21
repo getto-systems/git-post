@@ -33,6 +33,7 @@ git_post_github_get_token(){
 	fi
 }
 git_post_github_read_token(){
-	read -ps "personal access token for [$user_name]: " token
+	read -sp "personal access token for [$user_name]: " token
+	echo
 	echo $token > $config && chmod 600 $config
 }
