@@ -2,29 +2,6 @@
 
 git_post_github(){
 	local data
-	local result
-
-	data='{"title": "'$current'", "head": "'$current'", "base": "'$head_branch'"}'
-
-	token=token
-
-	git_post_github_post_with_retry
-}
-git_post_github_post_with_retry(){
-	read -p "github personal access token: " token
-	git_post_github_post
-	echo "$result"
-	return
-	if [ -z "$(git_post_github_post | head -1 | grep "401 Unauthorized")" ]; then
-		echo done
-	else
-		read -p "github personal access token: " token
-		git_post_github_post
-		echo done
-	fi
-}
-git_post_github_post(){
-	result=$(curl -i -s -H "Authorization: token $token" "https://api.github.com/repos/$destination/pulls" -d "$data")
 	local config_root
 	local config
 	local token
@@ -32,6 +9,9 @@ git_post_github_post(){
 	data='{"title": "'$current'", "head": "'$current'", "base": "'$head_branch'"}'
 
 	config_root=$HOME/.git-access-token
+	mkdir -p $config_root
+	chmod 700 $config_root
+
 	config=$config_root/github-$user_name
 
 	git_post_github_get_token
@@ -62,8 +42,5 @@ git_post_github_get_token(){
 }
 git_post_github_read_token(){
 	read -p "personal access token for [$user_name]: " token
-	mkdir -p $config_root
-	chmod 700 $config_root
-	echo $token > $config
-	chmod 600 $config
+	echo $token > $config && chmod 600 $config
 }
