@@ -33,10 +33,15 @@ git_post(){
 			;;
 	esac
 
-	pub=$(git remote -v | grep pub.*fetch)
-	pub=${pub#*	}
-	pub=${pub%.git *}
-	user_name=$(basename $(dirname $pub))
+	pub=$(git remote -v | grep "^pub	.*fetch")
+	if [ -z "$pub" ]; then
+		echo "set public remote : named 'pub'"
+		exit 1
+	fi
+
+	pub=${pub#pub	}
+	pub=${pub#https://}
+	user_name=${pub%@*}
 
 	git_post_pull_request
 }
