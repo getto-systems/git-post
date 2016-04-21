@@ -1,11 +1,17 @@
 #!/bin/bash
 
 git_post(){
+	local config_root
+	local config
 	local remote_name
 	local remote
 	local pub
 	local user_name
 	local host
+
+	config_root=$HOME/.git-post
+	mkdir -p $config_root
+	chmod 700 $config_root
 
 	remote_name=$1; shift
 	if [ -z "$remote_name" ]; then
@@ -32,7 +38,6 @@ git_post(){
 	pub=${pub%.git *}
 	user_name=$(basename $(dirname $pub))
 
-	. git-post-$host
 	git_post_pull_request
 }
 git_post_pull_request(){
@@ -50,21 +55,18 @@ git_post_pull_request(){
 	push_url=${push_url#*Push*URL: }
 	push_url=${push_url%.git}
 
-	case "$push_url" in
-		*@*)
-			destination=${push_url##*:}
-			;;
-		*)
-			destination=$(basename $(dirname $push_url))/$(basename $push_url)
-			;;
-	esac
+	destination=$(basename $(dirname $push_url))/$(basename $push_url)
 
 	head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
 	head_branch=${head_branch#*HEAD*branch: }
 
-	current=$(git current)
+	current=$(git symbolic-ref --short HEAD)
 
-	echo "PR: $current -> $destination : $remote_name/$head_branch"
+	echo "PR: $current -> $head_branch : $destination"
+
+	config=$config_root/$host-$user_name
+
+	. git-post-$host
 	git_post_$host
 }
 
