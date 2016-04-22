@@ -49,6 +49,7 @@ git_post_pull_request(){
 	local remote_detail
 	local push_url
 	local destination
+	local repository
 	local head_branch
 	local current
 
@@ -60,7 +61,8 @@ git_post_pull_request(){
 	push_url=${push_url#*Push*URL: }
 	push_url=${push_url%.git}
 
-	destination=$(basename $(dirname $push_url))/$(basename $push_url)
+	repository=$(basename $push_url)
+	destination=$(basename $(dirname $push_url))/$repository
 
 	head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
 	head_branch=${head_branch#*HEAD*branch: }
