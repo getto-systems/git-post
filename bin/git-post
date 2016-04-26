@@ -24,7 +24,7 @@ git_post(){
 		*git://github.com* | *@github* | *https://github.com*)
 			host=github
 			;;
-		*@bitbucket*)
+		*https://*bitbucket*)
 			host=bitbucket
 			;;
 		*)
