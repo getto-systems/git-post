@@ -24,7 +24,7 @@ git_post(){
 		*git://github.com* | *@github* | *https://github.com*)
 			host=github
 			;;
-		*https://*bitbucket*)
+		*https://*bitbucket.org* | *@bitbucket.org*)
 			host=bitbucket
 			;;
 		*)
@@ -40,8 +40,16 @@ git_post(){
 	fi
 
 	pub=${pub#pub	}
-	pub=${pub#https://}
-	user_name=${pub%@*}
+	case "$pub" in
+		git@*)
+			user_name=${pub#*:}
+			user_name=${user_name%/*}
+			;;
+		*)
+			user_name=${pub#https://}
+			user_name=${user_name%@*}
+			;;
+	esac
 
 	git_post_pull_request
 }
@@ -63,6 +71,7 @@ git_post_pull_request(){
 
 	repository=$(basename $push_url)
 	destination=$(basename $(dirname $push_url))/$repository
+	destination=${destination#*:}
 
 	head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
 	head_branch=${head_branch#*HEAD*branch: }
