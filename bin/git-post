@@ -61,8 +61,8 @@ git_post_pull_request(){
 	local head_branch
 	local current
 	local first_commit
-    local title
-    local description
+	local title
+	local description
 
 	echo "check remote..."
 	remote_detail=$(git remote show $remote_name)
@@ -85,9 +85,9 @@ git_post_pull_request(){
 
 	config=$config_root/$host-$user_name
 
-    first_commit=$(git log master.. --format="%H" | tail -1)
-    title=$(git log $first_commit -1 --format="%s")
-    description=$(git log $first_commit -1 --format="%b")
+	first_commit=$(git log master.. --format="%H" | tail -1)
+	title=$(git log $first_commit -1 --format="%s")
+	description=$(git log $first_commit -1 --format="%b")
 
 	. git-post-$host
 	git_post_$host
