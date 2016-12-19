@@ -88,6 +88,8 @@ git_post_pull_request(){
 	first_commit=$(git log master.. --format="%H" | tail -1)
 	title=$(git log $first_commit -1 --format="%s")
 	description=$(git log $first_commit -1 --format="%b")
+    description=${description//
+/\\n}
 
 	. git-post-$host
 	git_post_$host
