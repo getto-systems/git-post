@@ -23,14 +23,12 @@ git post
 .bashrc
 
 ```bashrc
-export GIT_POST_GITHUB_ACCESS_TOKEN="TOKEN"
 export PATH=$PATH:path/to/git-post/bin
 ```
 
-### github access token setting
+### github access token
 
 1. access personal access tokens: (https://github.com/settings/tokens)
-2. setup GIT_POST_GITHUB_ACCESS_TOKEN
 
 ## Manual
 
