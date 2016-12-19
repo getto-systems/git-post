@@ -4,7 +4,7 @@ git_post_github(){
 	local data
 	local token
 
-	data='{"title": "'$current'", "head": "'${user_name}:${current}'", "base": "'$head_branch'"}'
+	data='{"title": "'$title'", "body": "'"$description"'", "head": "'${user_name}:${current}'", "base": "'$head_branch'"}'
 
 	git_post_github_get_token
 	git_post_github_request
