@@ -75,7 +75,6 @@ git_post_pull_request(){
   destination=${destination#*:}
 
   parent=$(git parent)
-  : ${parent:=master}
 
   current=$(git symbolic-ref --short HEAD)
 
