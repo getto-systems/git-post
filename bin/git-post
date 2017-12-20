@@ -1,98 +1,98 @@
 #!/bin/bash
 
-git_post(){
-	local config_root
-	local config
-	local remote_name
-	local remote
-	local pub
-	local user_name
-	local host
+git_post_main(){
+  local config_root
+  local config
+  local remote_name
+  local remote
+  local pub
+  local user_name
+  local host
 
-	config_root=$HOME/.git-post
-	mkdir -p $config_root
-	chmod 700 $config_root
+  config_root=$HOME/.git-post
+  mkdir -p $config_root
+  chmod 700 $config_root
 
-	remote_name=$1; shift
-	if [ -z "$remote_name" ]; then
-		remote_name=origin
-	fi
+  remote_name=$1; shift
+  if [ -z "$remote_name" ]; then
+    remote_name=origin
+  fi
 
-	remote=$(git remote -v | grep $remote_name.*fetch)
+  remote=$(git remote -v | grep $remote_name.*fetch)
 
-	case "$remote" in
-		*git://github.com* | *@github* | *https://github.com*)
-			host=github
-			;;
-		*https://*bitbucket.org* | *@bitbucket.org*)
-			host=bitbucket
-			;;
-		*)
-			echo "git-post: unknown hosting service. noop"
-			exit 1
-			;;
-	esac
+  case "$remote" in
+    *git://github.com* | *@github* | *https://github.com*)
+      host=github
+      ;;
+    *https://*bitbucket.org* | *@bitbucket.org*)
+      host=bitbucket
+      ;;
+    *)
+      echo "git-post: unknown hosting service. noop"
+      exit 1
+      ;;
+  esac
 
-	pub=$(git remote -v | grep "^pub	.*fetch")
-	if [ -z "$pub" ]; then
-		echo "set public remote : named 'pub'"
-		exit 1
-	fi
+  pub=$(git remote -v | grep "^pub  .*fetch")
+  if [ -z "$pub" ]; then
+    echo "set public remote : named 'pub'"
+    exit 1
+  fi
 
-	pub=${pub#pub	}
-	case "$pub" in
-		git@*)
-			user_name=${pub#*:}
-			user_name=${user_name%/*}
-			;;
-		*)
-			user_name=${pub#https://}
-			user_name=${user_name%@*}
-			;;
-	esac
+  pub=${pub#pub  }
+  case "$pub" in
+    git@*)
+      user_name=${pub#*:}
+      user_name=${user_name%/*}
+      ;;
+    *)
+      user_name=${pub#https://}
+      user_name=${user_name%@*}
+      ;;
+  esac
 
-	git_post_pull_request
+  git_post_pull_request
 }
 git_post_pull_request(){
-	local remote_detail
-	local push_url
-	local destination
-	local repository
-	local head_branch
-	local current
-	local first_commit
-	local title
-	local description
+  local remote_detail
+  local push_url
+  local destination
+  local repository
+  local head_branch
+  local current
+  local first_commit
+  local title
+  local description
 
-	echo "check remote..."
-	remote_detail=$(git remote show $remote_name)
-	echo
+  echo "check remote..."
+  remote_detail=$(git remote show $remote_name)
+  echo
 
-	push_url=$(echo "$remote_detail" | grep 'Push.*URL')
-	push_url=${push_url#*Push*URL: }
-	push_url=${push_url%.git}
+  push_url=$(echo "$remote_detail" | grep 'Push.*URL')
+  push_url=${push_url#*Push*URL: }
+  push_url=${push_url%.git}
 
-	repository=$(basename $push_url)
-	destination=$(basename $(dirname $push_url))/$repository
-	destination=${destination#*:}
+  repository=$(basename $push_url)
+  destination=$(basename $(dirname $push_url))/$repository
+  destination=${destination#*:}
 
-	head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
-	head_branch=${head_branch#*HEAD*branch: }
+  head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
+  head_branch=${head_branch#*HEAD*branch: }
 
-	current=$(git symbolic-ref --short HEAD)
+  current=$(git symbolic-ref --short HEAD)
 
-	echo "PR: $current -> $head_branch : $destination"
+  echo "PR: $current -> $head_branch : $destination"
 
-	config=$config_root/$host-$user_name
+  config=$config_root/$host-$user_name
 
-	first_commit=$(git log master.. --format="%H" | tail -1)
-	title=$(git log $first_commit -1 --format="%s")
-	description=$(git log $first_commit -1 --format="%b")
-    description=${description//
+  first_commit=$(git log master.. --format="%H" | tail -1)
+  title=$(git log $first_commit -1 --format="%s")
+  description=$(git log $first_commit -1 --format="%b")
+  description=${description//
 /\\n}
 
-	. git-post-$host
-	git_post_$host
+  . git-post-$host
+  git_post_$host
 }
 
-git_post "$@"
+git_post_main "$@"
