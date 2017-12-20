@@ -1,0 +1,21 @@
+#!/bin/bash
+
+git_create_feature_branch_main(){
+  local message
+  local branch
+
+  message=$1; shift
+  if [ -z "$message" ]; then
+    echo 'usage: git create-feature-branch <commit message>'
+    exit 1
+  fi
+
+  branch=feature-$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
+
+  git checkout -b $branch &&
+    git commit --allow-empty -m "$message" &&
+    git pub &&
+    git push origin master:$branch
+}
+
+git_create_feature_branch_main "$@"

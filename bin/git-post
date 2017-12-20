@@ -1,24 +1,25 @@
 #!/bin/bash
 
 git_post_main(){
+  local message
   local config_root
   local config
-  local remote_name
   local remote
   local pub
   local user_name
   local host
 
+  message=$1; shift
+  if [ -z "$message" ]; then
+    echo 'usage: git post <pull-request subject and body>'
+    exit 1
+  fi
+
   config_root=$HOME/.git-post
   mkdir -p $config_root
   chmod 700 $config_root
 
-  remote_name=$1; shift
-  if [ -z "$remote_name" ]; then
-    remote_name=origin
-  fi
-
-  remote=$(git remote -v | grep $remote_name.*fetch)
+  remote=$(git remote -v | grep origin.*fetch)
 
   case "$remote" in
     *git://github.com* | *@github* | *https://github.com*)
@@ -57,15 +58,13 @@ git_post_pull_request(){
   local push_url
   local destination
   local repository
-  local head_branch
+  local parent
   local current
-  local first_commit
   local title
   local description
 
-  echo "check remote..."
-  remote_detail=$(git remote show $remote_name)
-  echo
+  echo "pull request..."
+  remote_detail=$(git remote show origin)
 
   push_url=$(echo "$remote_detail" | grep 'Push.*URL')
   push_url=${push_url#*Push*URL: }
@@ -75,20 +74,17 @@ git_post_pull_request(){
   destination=$(basename $(dirname $push_url))/$repository
   destination=${destination#*:}
 
-  head_branch=$(echo "$remote_detail" | grep 'HEAD.*branch')
-  head_branch=${head_branch#*HEAD*branch: }
+  parent=$(git parent)
+  : ${parent:=master}
 
   current=$(git symbolic-ref --short HEAD)
 
-  echo "PR: $current -> $head_branch : $destination"
+  echo "send: $current -> $parent : $destination"
 
   config=$config_root/$host-$user_name
 
-  first_commit=$(git log master.. --format="%H" | tail -1)
-  title=$(git log $first_commit -1 --format="%s")
-  description=$(git log $first_commit -1 --format="%b")
-  description=${description//
-/\\n}
+  title=$(echo "$message" | head -1)
+  description=$message
 
   . git-post-$host
   git_post_$host

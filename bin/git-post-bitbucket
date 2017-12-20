@@ -19,7 +19,7 @@ git_post_bitbucket(){
 	git_post_bitbucket_get_client_id
 	git_post_bitbucket_get_secret
 
-	data='{"title": "'$title'", "description": "'$description'", "source": {"branch": {"name": "'$current'"}, "repository": {"full_name": "'${user_name}/${repository}'"}}}'
+	data='{"title": "'$title'", "description": "'$description'", "destination": {"branch": {"name": "'$parent'"}}, "source": {"branch": {"name": "'$current'"}, "repository": {"full_name": "'${user_name}/${repository}'"}}}'
 
 	git_post_bitbucket_get_token
 	git_post_bitbucket_request
