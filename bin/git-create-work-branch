@@ -1,0 +1,42 @@
+#!/bin/bash
+
+git_create_work_branch_main(){
+  local message
+  local branch
+  local last
+  local parent
+  local is_commit_only
+
+  message=$1; shift
+  if [ -z "$message" ]; then
+    echo 'usage: git create-work-branch <commit message>'
+    exit 1
+  fi
+
+  branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
+
+  if [ "$branch" != master ]; then
+    git fetch origin
+
+    last="$(git show -q --format="%H")"
+    parent=$(git parent)
+    : ${parent:=master}
+    if [ -z "$(git log "origin/$parent".."$last" --format="%H")" ]; then
+      git purge
+    else
+      is_commit_only=true
+    fi
+  fi
+
+  if [ -n "$is_commit_only" ]; then
+    git commit --allow-empty -m "$message" &&
+      git pub
+  else
+    git checkout -b $branch &&
+      git commit --allow-empty -m "$message" &&
+      git pub &&
+      git post "$message"
+  fi
+}
+
+git_create_work_branch_main "$@"
