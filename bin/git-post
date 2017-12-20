@@ -33,13 +33,12 @@ git_post_main(){
       ;;
   esac
 
-  pub=$(git remote -v | grep "^pub  .*fetch")
+  pub=$(git remote -v | grep "^pub.*fetch" | awk '{print $2}')
   if [ -z "$pub" ]; then
     echo "set public remote : named 'pub'"
     exit 1
   fi
 
-  pub=${pub#pub  }
   case "$pub" in
     git@*)
       user_name=${pub#*:}
