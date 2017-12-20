@@ -20,7 +20,6 @@ git_create_work_branch_main(){
 
     last="$(git show -q --format="%H")"
     parent=$(git parent)
-    : ${parent:=master}
     if [ -z "$(git log "origin/$parent".."$last" --format="%H")" ]; then
       git purge
     else
