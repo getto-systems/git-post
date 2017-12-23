@@ -3,6 +3,7 @@
 git_create_feature_branch_main(){
   local message
   local branch
+  local parent
 
   message=$1; shift
   if [ -z "$message" ]; then
@@ -11,11 +12,12 @@ git_create_feature_branch_main(){
   fi
 
   branch=feature-$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
+  parent=$(git parent)
 
   git checkout -b $branch &&
     git commit --allow-empty -m "$message" &&
     git pub &&
-    git push origin master:$branch
+    git push origin ${parent}:${branch}
 }
 
 git_create_feature_branch_main "$@"
