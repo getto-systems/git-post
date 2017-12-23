@@ -24,7 +24,7 @@ git create-work-branch "add awesome feature"
 
 - GNU bash, version 4.3.48(1)-release (x86_64-alpine-linux-musl)
 - git version 2.14.2
-- [sanzen-sekai/git-pub](https://github.com/sanzen-sekai/git-pub)
+- [sanzen-sekai/git-pub : GitHub](https://github.com/sanzen-sekai/git-pub)
 
 
 <a id="usage"></a>
