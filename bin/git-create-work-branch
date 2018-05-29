@@ -15,11 +15,11 @@ git_create_work_branch_main(){
 
   branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
 
-  if [ "$branch" != master ]; then
+  parent=$(git parent)
+  if [ "$parent" != master ]; then
     git fetch origin
 
     last="$(git show -q --format="%H")"
-    parent=$(git parent)
     if [ -z "$(git log "origin/$parent".."$last" --format="%H")" ]; then
       git purge
     else
