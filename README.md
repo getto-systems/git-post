@@ -24,7 +24,7 @@ git create-work-branch "add awesome feature"
 
 - GNU bash, version 4.3.48(1)-release (x86_64-alpine-linux-musl)
 - git version 2.14.2
-- [sanzen-sekai/git-pub : GitHub](https://github.com/sanzen-sekai/git-pub)
+- [git-pub](https://github.com/getto-systems/git-pub)
 
 
 <a id="usage"></a>
@@ -35,12 +35,12 @@ to install git-post, clone into your bash-scripts directory, and export PATH
 ```bash
 INSTALL_DIR=path/to/scripts/git-post
 
-git clone https://github.com/sanzen-sekai/git-post.git $INSTALL_DIR
+git clone https://github.com/getto-systems/git-post.git $INSTALL_DIR
 
 export PATH=$INSTALL_DIR/bin:$PATH
 ```
 
-- requirements: you have to install [git-pub](https://github.com/sanzen-sekai/git-pub)
+- requirements: you have to install [git-pub](https://github.com/getto-systems/git-pub)
 
 
 ### git create-work-branch
