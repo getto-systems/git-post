@@ -1,0 +1,44 @@
+#!/bin/bash
+
+git_post_gitlab(){
+  local id
+  local target_project_name
+  local token
+
+  id=${pub#git@gitlab.com:}
+  id=${id//\//%2F}
+
+  target_project_name=${push_url#git@gitlab.com:}
+  target_project_name=${target_project_name//\//%2F}
+
+  git_post_gitlab_get_token
+  git_post_gitlab_request
+}
+git_post_gitlab_request(){
+  local target_project_id
+  local result
+
+  target_project_id=$(curl -s -H "Private-Token: $token" "https://gitlab.com/api/v4/projects/$target_project_name" | cut -d'"' -f3 | sed 's/^:\([^,]*\),$/\1/')
+
+  result=$(curl -i -s -H "Private-Token: $token" -d "id=$id" -d "title=$title" -d "description=$description" -d "source_branch=$current" -d "target_branch=$parent" -d "target_project_id=$target_project_id" "https://gitlab.com/api/v4/projects/$id/merge_requests")
+
+  if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
+    git_post_gitlab_read_token
+    git_post_gitlab_request
+  else
+    echo "$result" | head -1
+    echo "$result" | grep '"message":' | sed 's/"message": "\(.*\)",\?$/\1/'
+  fi
+}
+git_post_gitlab_get_token(){
+  if [ -f $config ]; then
+    token=$(cat $config)
+  else
+    git_post_gitlab_read_token
+  fi
+}
+git_post_gitlab_read_token(){
+  read -sp "personal access token for [$user_name]: " token
+  echo
+  echo $token > $config && chmod 600 $config
+}

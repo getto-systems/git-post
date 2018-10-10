@@ -1,39 +1,39 @@
 #!/bin/bash
 
 git_post_github(){
-	local data
-	local token
+  local data
+  local token
 
-	data='{"title": "'$title'", "body": "'"$description"'", "head": "'${user_name}:${current}'", "base": "'$parent'"}'
+  data='{"title": "'$title'", "body": "'"$description"'", "head": "'${user_name}:${current}'", "base": "'$parent'"}'
 
-	git_post_github_get_token
-	git_post_github_request
+  git_post_github_get_token
+  git_post_github_request
 }
 git_post_github_request(){
-	local result
-	result=$(curl -i -s -H "Authorization: token $token" "https://api.github.com/repos/$destination/pulls" -d "$data")
+  local result
+  result=$(curl -i -s -H "Authorization: token $token" "https://api.github.com/repos/$destination/pulls" -d "$data")
 
-	if [ -n "$(echo "$result" | grep "Status: 201 Created")" ]; then
-		echo done
-	else
-		if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
-			git_post_github_read_token
-			git_post_github_request
-		else
-			echo "$result" | head -1
-			echo "$result" | grep '"message":' | sed 's/"message": "\(.*\)",\?$/\1/'
-		fi
-	fi
+  if [ -n "$(echo "$result" | grep "Status: 201 Created")" ]; then
+    echo done
+  else
+    if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
+      git_post_github_read_token
+      git_post_github_request
+    else
+      echo "$result" | head -1
+      echo "$result" | grep '"message":' | sed 's/"message": "\(.*\)",\?$/\1/'
+    fi
+  fi
 }
 git_post_github_get_token(){
-	if [ -f $config ]; then
-		token=$(cat $config)
-	else
-		git_post_github_read_token
-	fi
+  if [ -f $config ]; then
+    token=$(cat $config)
+  else
+    git_post_github_read_token
+  fi
 }
 git_post_github_read_token(){
-	read -sp "personal access token for [$user_name]: " token
-	echo
-	echo $token > $config && chmod 600 $config
+  read -sp "personal access token for [$user_name]: " token
+  echo
+  echo $token > $config && chmod 600 $config
 }

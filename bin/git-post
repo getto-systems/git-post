@@ -28,6 +28,9 @@ git_post_main(){
     *https://*bitbucket.org* | *@bitbucket.org*)
       host=bitbucket
       ;;
+    *git@gitlab.com*)
+      host=gitlab
+      ;;
     *)
       echo "git-post: unknown hosting service. noop"
       exit 1
@@ -78,9 +81,9 @@ git_post_pull_request(){
 
   current=$(git symbolic-ref --short HEAD)
 
-  echo "send: $current -> $parent : $destination"
+  echo "send: $current -> $parent"
 
-  config=$config_root/$host-$user_name
+  config=$config_root/$host-${user_name//\//-}
 
   title=$(echo "$message" | head -1)
   description=$message
