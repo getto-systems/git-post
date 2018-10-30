@@ -2,6 +2,7 @@
 
 git_post_main(){
   local message
+  local parent
   local config_root
   local config
   local remote
@@ -13,6 +14,11 @@ git_post_main(){
   if [ -z "$message" ]; then
     echo 'usage: git post <pull-request subject and body>'
     exit 1
+  fi
+
+  parent=$1; shift
+  if [ -z "$parent" ]; then
+    parent=$(git parent)
   fi
 
   config_root=$HOME/.git-post
@@ -61,7 +67,6 @@ git_post_pull_request(){
   local push_url
   local destination
   local repository
-  local parent
   local current
   local title
   local description
@@ -76,8 +81,6 @@ git_post_pull_request(){
   repository=$(basename $push_url)
   destination=$(basename $(dirname $push_url))/$repository
   destination=${destination#*:}
-
-  parent=$(git parent)
 
   current=$(git symbolic-ref --short HEAD)
 
