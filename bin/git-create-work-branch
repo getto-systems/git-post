@@ -15,7 +15,7 @@ git_create_work_branch_main(){
 
   branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
 
-  if [ "$branch" != master ]; then
+  if [ "$(git symbolic-ref --short HEAD)" != master ]; then
     git fetch origin
 
     last="$(git show -q --format="%H")"
