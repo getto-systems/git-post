@@ -6,9 +6,11 @@ git_post_gitlab(){
   local token
 
   id=${pub#git@gitlab.com:}
+  id=${id%.git}
   id=${id//\//%2F}
 
   target_project_name=${push_url#git@gitlab.com:}
+  target_project_name=${target_project_name%.git}
   target_project_name=${target_project_name//\//%2F}
 
   git_post_gitlab_get_token
