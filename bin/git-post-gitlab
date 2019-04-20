@@ -21,8 +21,9 @@ git_post_gitlab_request(){
   local result
 
   target_project_id=$(curl -s -H "Private-Token: $token" "https://gitlab.com/api/v4/projects/$target_project_name" | cut -d'"' -f3 | sed 's/^:\([^,]*\),$/\1/')
+  assignee_id=$(curl -s -H "Private-Token: $token" "https://gitlab.com/api/v4/user" | cut -d'"' -f3 | sed 's/^:\([^,]*\),$/\1/')
 
-  result=$(curl -i -s -H "Private-Token: $token" -d "id=$id" -d "title=$title" -d "description=$description" -d "source_branch=$current" -d "target_branch=$parent" -d "target_project_id=$target_project_id" "https://gitlab.com/api/v4/projects/$id/merge_requests")
+  result=$(curl -i -s -H "Private-Token: $token" -d "id=$id" -d "title=$title" -d "description=$description" -d "source_branch=$current" -d "target_branch=$parent" -d "target_project_id=$target_project_id" -d "assignee_id=$assignee_id" "https://gitlab.com/api/v4/projects/$id/merge_requests")
 
   if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
     git_post_gitlab_read_token
