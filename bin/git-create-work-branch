@@ -5,7 +5,6 @@ git_create_work_branch_main(){
   local branch
   local last
   local parent
-  local is_commit_only
 
   message=$1; shift
   if [ -z "$message" ]; then
@@ -15,26 +14,24 @@ git_create_work_branch_main(){
 
   branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
 
-  if [ "$(git symbolic-ref --short HEAD)" != master ]; then
-    git fetch origin
+  parent=$(git parent)
 
-    last="$(git show -q --format="%H")"
-    parent=$(git parent)
-    if [ -z "$(git log "origin/$parent".."$last" --format="%H")" ]; then
-      git purge
-    else
-      is_commit_only=true
-    fi
-  fi
-
-  if [ -n "$is_commit_only" ]; then
-    git commit --allow-empty -m "$message" &&
-      git pub
-  else
+  if [ "$(git symbolic-ref --short HEAD)" == "$parent" ]; then
     git checkout -b $branch &&
       git commit --allow-empty -m "$message" &&
       git pub &&
-      git post "$message"
+      git post "$message" "$parent"
+  else
+    git fetch origin
+
+    last="$(git show -q --format="%H")"
+    if [ -z "$(git log "origin/$parent".."$last" --format="%H")" ]; then
+      echo "this branch is already merged to origin/$parent"
+      return
+    fi
+
+    git commit --allow-empty -m "$message" &&
+      git pub
   fi
 }
 
