@@ -1,3 +1,7 @@
+# Version : 0.3.0
+
+fix: create-work-branch
+
 # Version : 0.2.0
 
 add: assignee_id : gitlab
