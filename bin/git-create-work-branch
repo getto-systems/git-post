@@ -12,26 +12,30 @@ git_create_work_branch_main(){
     exit 1
   fi
 
-  branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
-
   parent=$(git parent)
 
   if [ "$(git symbolic-ref --short HEAD)" == "$parent" ]; then
-    git checkout -b $branch &&
-      git commit --allow-empty -m "$message" &&
-      git pub &&
-      git post "$message" "$parent"
-  else
-    git fetch origin
+    branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
 
-    last="$(git show -q --format="%H")"
-    if [ -z "$(git log "origin/$parent".."$last" --format="%H")" ]; then
-      echo "this branch is already merged to origin/$parent"
+    git checkout -b $branch &&
+    git commit --allow-empty -m "$message" &&
+    git pub &&
+    git post "$message" "$parent" &&
+    :
+  else
+    branch=$(git symbolic-ref --short HEAD)
+
+    git fetch origin
+    git fetch pub
+
+    if [ -z "$(git branch -r --no-merged origin/$parent | grep pub/$branch)" ]; then
+      echo "pub/$branch is already merged to origin/$parent"
       return
     fi
 
     git commit --allow-empty -m "$message" &&
-      git pub
+    git pub &&
+    :
   fi
 }
 
