@@ -86,6 +86,10 @@ git_post_pull_request(){
 
   current=$(git symbolic-ref --short HEAD)
 
+  if [ -z "$current" ]; then
+    current=${GIT_POST_DEFAULT_SOURCE_BRANCH:-master}
+  fi
+
   echo "send: $current -> $parent"
 
   config=$config_root/$host-${user_name//\//-}
