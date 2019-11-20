@@ -34,7 +34,7 @@ git_post_main(){
     *https://*bitbucket.org* | *@bitbucket.org*)
       host=bitbucket
       ;;
-    *git@gitlab.com*)
+    *git@gitlab.com* | *https://gitlab.com*)
       host=gitlab
       ;;
     *)
@@ -43,9 +43,11 @@ git_post_main(){
       ;;
   esac
 
-  pub=$(git remote -v | grep "^pub.*fetch" | awk '{print $2}')
+  : ${GIT_POST_REMOTE_FORK_NAME:=pub}
+
+  pub=$(git remote -v | grep "^${GIT_POST_REMOTE_FORK_NAME}.*fetch" | awk '{print $2}')
   if [ -z "$pub" ]; then
-    echo "set public remote : named 'pub'"
+    echo "set public remote : named '${GIT_POST_REMOTE_FORK_NAME}'"
     exit 1
   fi
 
