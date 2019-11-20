@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.7.0
+
+- fix: unknown source branch : See merge request getto-systems-base/labo/git/post!14
+
+
 ## Version : 0.6.0
 
 - fix: default source branch : See merge request getto-systems-base/labo/git/post!13
