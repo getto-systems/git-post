@@ -87,7 +87,8 @@ git_post_pull_request(){
   current=$(git symbolic-ref --short HEAD)
 
   if [ -z "$current" ]; then
-    current=${GIT_POST_DEFAULT_SOURCE_BRANCH:-master}
+    echo "unknown source branch"
+    exit 1
   fi
 
   echo "send: $current -> $parent"
