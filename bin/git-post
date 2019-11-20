@@ -34,11 +34,11 @@ git_post_main(){
     *https://*bitbucket.org* | *@bitbucket.org*)
       host=bitbucket
       ;;
-    *git@gitlab.com* | *https://gitlab.com*)
+    *git@gitlab.com* | *https://*@gitlab.com*)
       host=gitlab
       ;;
     *)
-      echo "git-post: unknown hosting service. noop"
+      echo "git-post: unknown origin: '${remote}'. noop"
       exit 1
       ;;
   esac

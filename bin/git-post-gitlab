@@ -19,8 +19,8 @@ git_post_gitlab_format(){
     git@gitlab.com*)
       formatted=${formatted#git@gitlab.com:}
       ;;
-    https://gitlab.com*)
-      formatted=${formatted#https://gitlab.com/}
+    https://*@gitlab.com*)
+      formatted=${formatted#https://*@gitlab.com/}
       ;;
   esac
   formatted=${formatted%.git}
