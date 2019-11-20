@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.4.1
+
+- fix: releaseignore : See merge request getto-systems-base/labo/git/post!11
+
+
 ## Version : 0.4.0
 
 - fix: gitlab-ci : See merge request getto-systems-base/labo/git/post!10
