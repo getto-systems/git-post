@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.6.0
+
+- fix: default source branch : See merge request getto-systems-base/labo/git/post!13
+
+
 ## Version : 0.5.0
 
 - fix: gitlab url : See merge request getto-systems-base/labo/git/post!12
