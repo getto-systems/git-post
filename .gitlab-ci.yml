@@ -59,6 +59,7 @@ release:
   except:
     refs:
       - triggers
+      - schedules
 
   image: buildpack-deps:disco-scm
 
