@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.8.0
+
+- add: setup.sh : See merge request getto-systems-base/labo/git/post!15
+
+
 ## Version : 0.7.0
 
 - fix: unknown source branch : See merge request getto-systems-base/labo/git/post!14
