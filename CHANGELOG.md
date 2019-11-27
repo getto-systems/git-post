@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 0.9.1
+
+- fix: gitlab-cil : See merge request getto-systems-base/labo/git/post!18
+- fix: readme : See merge request getto-systems-base/labo/git/post!17
+
+
 ## Version : 0.9.0
 
 - fix: setup.sh : See merge request getto-systems-base/labo/git/post!16
