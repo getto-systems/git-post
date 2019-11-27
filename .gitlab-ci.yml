@@ -12,10 +12,9 @@ release:
     variables:
       - $RELEASE
 
-  variables:
-    GIT_USER_NAME: getto
-    GIT_USER_EMAIL: admin@getto.systems
-
+  before_script:
+    - git config user.name getto
+    - git config user.email admin@getto.systems
   script:
     - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/version_dump.sh | bash
     - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
