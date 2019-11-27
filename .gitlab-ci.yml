@@ -56,6 +56,10 @@ release:
       - master@getto-systems-base/labo/git/post
     changes:
       - .release-version
+  except:
+    refs:
+      - triggers
+      - schedules
 
   image: buildpack-deps:disco-scm
 
