@@ -23,5 +23,3 @@ if [ -d git-post/.git ]; then
 else
   git clone https://github.com/getto-systems/git-post.git
 fi
-
-export PATH=$PATH:$git_post_setup_path/git-post/bin
