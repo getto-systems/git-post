@@ -3,14 +3,11 @@
 pull request to origin
 
 ```bash
-git create-feature-branch "my awesome module"
-
-git commit -m "some changes"
-
-git create-work-branch "add awesome feature"
+# some changes
+git create-work-branch "add: awesome feature"
 ```
 
-- limitation: only for GitHub or BitBucket
+- limitation: only for GitHub, BitBucket, GitLab
 
 ###### Table of Contents
 
@@ -19,84 +16,102 @@ git create-work-branch "add awesome feature"
 - [License](#license)
 
 
-<a id="requirements"></a>
 ## Requirements
 
-- GNU bash, version 4.3.48(1)-release (x86_64-alpine-linux-musl)
-- git version 2.14.2
-- [git-pub](https://github.com/getto-systems/git-pub)
+- GNU bash
+- [getto-systems/git-pub](https://github.com/getto-systems/git-pub)
 
 
-<a id="usage"></a>
 ## Usage
 
-to install git-post, clone into your bash-scripts directory, and export PATH
-
 ```bash
-INSTALL_DIR=path/to/scripts/git-post
+# some changes
+git create-work-branch "add: awesome feature
 
-git clone https://github.com/getto-systems/git-post.git $INSTALL_DIR
-
-export PATH=$INSTALL_DIR/bin:$PATH
+- change awesome
+- change another awesome"
 ```
 
-- requirements: you have to install [git-pub](https://github.com/getto-systems/git-pub)
-
-
-### git create-work-branch
-
-create branch and create pull request
+This command is short-hand for following commands.
 
 ```bash
-git create-work-branch "add some feature
+git checkout -b add-awesome-feature &&
+git commit -m "add: awesome feature
 
-- reason" #=>
-  git checkout -b add-some-feature &&
-  git commit -m "add some feature
-
-  - reason" &&
-  git pub &&
-  git post
+- change awesome
+- change another awesome" &&
+git pub &&
+git post
 ```
 
-#### setup token
+- requirements: [getto-systems/git-pub](https://github.com/getto-systems/git-pub)
 
-you have not configured access token, git-post prompt to enter your access token
+
+### setup token
+
+You have not configured access token, git-post prompt to enter your access token.
 
 - GitHub: [create Personal access token](https://github.com/settings/tokens) (allow public_repo) and enter access token
+- GitLab: add [Personal Access Tokens](https://gitlab.com/profile/personal_access_tokens) (scope: api) and enter access token
 - BitBucket: create OAuth consumer key (allow create pull request) and enter client_id and secret then access URL, and paste code
 
-### git post
 
-pull request to origin
+### feature branch
+
+```bash
+git create-feature-branch "my awesome feature"
+```
+
+This command is short-hand for following commands.
+
+```bash
+git checkout -b feature-my-awesome-module &&
+git commit -m "my awesome module" &&
+git pub &&
+git push origin <PARENT_BRANCH>
+```
+
+- PARENT_BRANCH: `git parent`
+- requirements: [getto-systems/git-pub](https://github.com/getto-systems/git-pub)
+
+
+### post pull request
+
+- title: `"subject"`
+- description: `"subject\n\nbody"`
 
 ```bash
 git post "subject
 
-body" #=>
-  create pull request
-    title: subject
-    description: subject\n\nbody
+body"
 ```
 
-### git create-feature-branch
+- requirements: [getto-systems/git-pub](https://github.com/getto-systems/git-pub)
 
-create branch to origin (you must have permission to write origin)
+
+### post pull request to branch
 
 ```bash
-git create-feature-branch "my awesome module" #=>
-  git checkout -b feature-my-awesome-module &&
-  git commit -m "my awesome module" &&
-  git pub &&
-  git push origin <PARENT_BRANCH>
+git post "subject" $branch
 ```
 
-- PARENT_BRANCH: base branch of current-branch
+- this command not need to install [getto-systems/git-pub](https://github.com/getto-systems/git-pub)
 
 
-<a id="license"></a>
+### Install
+
+to install git-post, clone into your bash-scripts directory, and export PATH
+
+```bash
+GIT_POST_INSTALL_PATH=/path/to/install/dir
+
+curl https://raw.githubusercontent.com/getto-systems/git-post/master/bin/setup.sh | bash -s -- $GIT_POST_INSTALL_PATH
+export PATH=$PATH:$GIT_POST_INSTALL_PATH/git-post/bin
+```
+
+
 ## License
 
 git-post is licensed under the [MIT](LICENSE) license.
 
-Copyright &copy; since 2016 shun.fix9@gmail.com
+Copyright &copy; since 2016 shun@getto.systems
