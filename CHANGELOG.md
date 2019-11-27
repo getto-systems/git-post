@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.9.0
+
+- fix: setup.sh : See merge request getto-systems-base/labo/git/post!16
+
+
 ## Version : 0.8.1
 
 
