@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.9.3
+
+- move: setup.sh : See merge request getto-systems-base/labo/git/post!22
+
+
 ## Version : 0.9.2
 
 - fix: gitlab-ci : See merge request getto-systems-base/labo/git/post!20
