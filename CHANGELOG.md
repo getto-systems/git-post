@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 0.9.4
+
+- fix: gitlab-ci : See merge request getto-systems-base/labo/git/post!25
+- fix: set-window-titile : See merge request getto-systems-base/labo/git/post!24
+
+
 ## Version : 0.9.3
 
 - move: setup.sh : See merge request getto-systems-base/labo/git/post!22
