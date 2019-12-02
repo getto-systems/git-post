@@ -89,6 +89,17 @@ body"
 - requirements: [getto-systems/git-pub](https://github.com/getto-systems/git-pub)
 
 
+### Environment Variables
+
+- `${GIT_POST_REMOTE_FORK_NAME:=pub}` : `git post` will push local changes to remote that named "pub". If you want to push to another remote, set `GIT_POST_REMOTE_FORK_NAME`. e.g. `GIT_POST_REMOTE_FORK_NAME=origin`
+
+#### GitLab settings
+
+- `$GITLAB_MERGE_REQUEST_ASSIGNEES` : `git post` will assign yourself. If you want to assign other people, set `GITLAB_MERGE_REQUEST_ASSIGNEES`. e.g. `GITLAB_MERGE_REQUEST_ASSIGNEES=getto,shun-fix9`
+- `$GITLAB_REMOVE_SOURCE_BRANCH` : If set `GITLAB_REMOVE_SOURCE_BRANCH`, create MR with "remove source branch" option.
+- `$GITLAB_ACCESS_TOKEN` : If set `GITLAB_ACCESS_TOKEN`, use this token instead of local-saved-token.
+
+
 ### post pull request to branch
 
 ```bash
