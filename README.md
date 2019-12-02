@@ -96,8 +96,8 @@ body"
 #### GitLab settings
 
 - `$GITLAB_MERGE_REQUEST_ASSIGNEES` : `git post` will assign yourself. If you want to assign other people, set `GITLAB_MERGE_REQUEST_ASSIGNEES`. e.g. `GITLAB_MERGE_REQUEST_ASSIGNEES=getto,shun-fix9`
-- `$GITLAB_REMOVE_SOURCE_BRANCH` : If set `GITLAB_REMOVE_SOURCE_BRANCH`, create MR with "remove source branch" option.
-- `$GITLAB_ACCESS_TOKEN` : If set `GITLAB_ACCESS_TOKEN`, use this token instead of local-saved-token.
+- `$GITLAB_REMOVE_SOURCE_BRANCH` : If there is `GITLAB_REMOVE_SOURCE_BRANCH`, `git post` create MR with "remove source branch" option.
+- `$GITLAB_ACCESS_TOKEN` : If there is `GITLAB_ACCESS_TOKEN`, `git post` use this token instead of local-saved-token.
 
 
 ### post pull request to branch
