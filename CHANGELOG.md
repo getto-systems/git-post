@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 0.9.5
+
+- fix: README : See merge request getto-systems-base/labo/git/post!28
+- fix: README : See merge request getto-systems-base/labo/git/post!27
+
+
 ## Version : 0.9.4
 
 - fix: gitlab-ci : See merge request getto-systems-base/labo/git/post!25
