@@ -2,6 +2,8 @@
 
 pull request to origin
 
+status: production ready
+
 ```bash
 # some changes
 git create-work-branch "add: awesome feature"
