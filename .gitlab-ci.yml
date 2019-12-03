@@ -5,7 +5,7 @@ stages:
   - image_test
   - image_fix_vulnerabilities
   - image_push
-  - version_dump
+  - bump_version
   - release
   - release_notify
 
@@ -105,8 +105,8 @@ image_push:
     - getto-hangar-push.sh
     - curl https://trellis.getto.systems/ci/bump-version/1.2.1/request.sh | bash -s -- ./.fix-image-message.sh
 
-version_dump:
-  stage: version_dump
+bump_version:
+  stage: bump_version
   only:
     refs:
       - triggers
@@ -120,7 +120,7 @@ version_dump:
     - git config user.name getto
     - export PATH=$PATH:./bin
   script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.1/version_dump.sh | bash
+    - curl https://trellis.getto.systems/ci/bump-version/1.2.1/bump_version.sh | bash
     - curl https://trellis.getto.systems/ci/bump-version/1.2.1/request.sh | bash -s -- ./.bump-message.sh
 
 release:
