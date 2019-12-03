@@ -74,7 +74,7 @@ image_fix_vulnerabilities:
     - export PATH=$PATH:./bin
   script:
     - getto-hangar-fix-vulnerabilities.sh
-    - cat ./dist/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
+    - curl https://trellis.getto.systems/ci/bump-version/1.2.1/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
 
 image_push:
   stage: image_push
@@ -103,7 +103,7 @@ image_push:
 
   script:
     - getto-hangar-push.sh
-    - cat ./dist/request.sh | bash -s -- ./.fix-image-message.sh
+    - curl https://trellis.getto.systems/ci/bump-version/1.2.1/request.sh | bash -s -- ./.fix-image-message.sh
 
 version_dump:
   stage: version_dump
