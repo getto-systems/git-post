@@ -137,6 +137,7 @@ release:
 
   script:
     - curl https://trellis.getto.systems/ci/bump-version/1.2.1/push_tags.sh | bash
+    - ./scripts/deploy.sh
 
 release_success:
   stage: release_notify
@@ -156,6 +157,7 @@ release_success:
   before_script:
     - export channel=$SLACK_CHANNEL
   script:
+    - ./scripts/check_version.sh
     - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-release.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release_failure:
