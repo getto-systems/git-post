@@ -1,4 +1,4 @@
-image: getto/hangar:e4fAdPYAfJ7vocYr-20200113075033
+image: getto/hangar:e4fAdPYAfJ7vocYr-20200120063953
 
 stages:
   - image_build
