@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## Version : 1.1.0
+
+- fix: create-work-branch script : See merge request getto-systems-base/labo/git/post!54
+- fix: always add remove_source_branch switch : See merge request getto-systems-base/labo/git/post!53
+- remove: create feature branch script : See merge request getto-systems-base/labo/git/post!52
+- fix: image : getto/hangar:e4fAdPYAfJ7vocYr-20200127105916 : See merge request getto-systems-base/labo/git/post!51
+- fix: vulnerabilities : 2020-01-27T01:08:52,217169773 00:00 : See merge request getto-systems-base/labo/git/post!49
+- fix: vulnerabilities : See merge request getto-systems-base/labo/git/post!50
+- fix: image : getto/hangar:e4fAdPYAfJ7vocYr-20200120063953 : See merge request getto-systems-base/labo/git/post!48
+- fix: vulnerabilities : 2020-01-20T01:08:46,749959939 00:00 : See merge request getto-systems-base/labo/git/post!47
+- fix: image : getto/hangar:e4fAdPYAfJ7vocYr-20200113075033 : See merge request getto-systems-base/labo/git/post!46
+- fix: vulnerabilities : 2020-01-13T01:08:13,342980995 00:00 : See merge request getto-systems-base/labo/git/post!45
+- fix: image : getto/hangar:e4fAdPYAfJ7vocYr-20191223110139 : See merge request getto-systems-base/labo/git/post!44
+- fix: vulnerabilities : 2019-12-23T01:08:08,141115034 00:00 : See merge request getto-systems-base/labo/git/post!43
+- fix: gitlab-ci : See merge request getto-systems-base/labo/git/post!41
+
+
 ## Version : 1.0.0
 
 - production ready! : See merge request getto-systems-base/labo/git/post!39
