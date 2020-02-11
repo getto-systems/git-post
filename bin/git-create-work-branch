@@ -1,42 +1,98 @@
 #!/bin/bash
 
 git_create_work_branch_main(){
+  local parent_remote
+  local pub_remote
+  local default_branch
   local message
-  local branch
-  local last
-  local parent
+
+  git_create_work_branch_parse_options "$@"
+
+  local parent_branch
+  local pub_branch
+  local is_create_new_pull_request
+
+  parent_branch=$(git parent)
+
+  git_create_work_branch_set_pub_branch
+  git_create_work_branch_check_pub_merged
+
+  if [ -n "${is_create_new_pull_request}" ]; then
+    git_create_work_branch_new_pull_request
+  else
+    git_create_work_branch_push_to_pub
+  fi
+}
+git_create_work_branch_parse_options(){
+  parent_remote=origin
+  pub_remote=pub
+  default_branch=master
 
   message=$1; shift
+
   if [ -z "$message" ]; then
-    echo 'usage: git create-work-branch <commit message>'
-    exit 1
+    git_create_work_branch_error usage
+  fi
+}
+
+git_create_work_branch_set_pub_branch(){
+  local current_branch
+  current_branch=$(git symbolic-ref --short HEAD)
+
+  # create new pull request if current branch is master
+  if [ "${current_branch}" = "${default_branch}" ]; then
+    is_create_new_pull_request=true
   fi
 
-  parent=$(git parent)
+  # create new pull request if current branch is origin's branch
+  if [ -n "$(git branch -r --list "${parent_remote}/${current_branch}")" ]; then
+    is_create_new_pull_request=true
+  fi
 
-  if [ "$(git symbolic-ref --short HEAD)" == "$parent" ]; then
-    branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
+  # create new pull request if current branch is not pub's branch
+  if [ -z "$(git branch -r --list "${pub_remote}/${current_branch}")" ]; then
+    is_create_new_pull_request=true
+  fi
 
-    git checkout -b $branch &&
-    git commit --allow-empty -m "$message" &&
-    git pub &&
-    git post "$message" "$parent" &&
-    :
+  if [ -n "${is_create_new_pull_request}" ]; then
+    pub_branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
   else
-    branch=$(git symbolic-ref --short HEAD)
-
-    git fetch origin
-    git fetch pub
-
-    if [ -z "$(git branch -r --no-merged origin/$parent | grep pub/$branch)" ]; then
-      echo "pub/$branch is already merged to origin/$parent"
-      return
-    fi
-
-    git commit --allow-empty -m "$message" &&
-    git pub &&
-    :
+    pub_branch=${current_branch}
   fi
+}
+git_create_work_branch_check_pub_merged(){
+  if [ -z "$(git branch -r --list "${pub_remote}/${pub_branch}")" ]; then
+    return
+  fi
+
+  if [ -z "$(git log "${parent_remote}/${parent_branch}..${pub_remote}/${pub_branch}")" ]; then
+    git_create_work_branch_error pub_is_already_merged
+  fi
+}
+
+git_create_work_branch_new_pull_request(){
+  git checkout -b "${pub_branch}" &&
+  git_create_work_branch_push_to_pub &&
+  git post "${message}" "${parent_branch}" &&
+  :
+}
+git_create_work_branch_push_to_pub(){
+  git commit --allow-empty -m "${message}" &&
+  git push "${pub_remote}" "${pub_branch}" &&
+  :
+}
+
+git_create_work_branch_error(){
+  git_create_work_branch_error_message_$1 >&2
+  exit 1
+}
+
+git_create_work_branch_error_message_usage(){
+  echo 'usage: git create-work-branch <commit message>'
+}
+git_create_work_branch_error_message_pub_is_already_merged(){
+  echo "${pub_remote}/${pub_branch} is already merged into ${parent_remote}/${parent_branch}"
+  echo "aborted."
 }
 
 git_create_work_branch_main "$@"
