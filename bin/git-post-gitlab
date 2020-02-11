@@ -31,14 +31,12 @@ git_post_gitlab_format(){
 git_post_gitlab_request(){
   local target_project_id
   local assignee_ids_opt
-  local remove_source_branch_opt
   local result
 
   target_project_id=$(curl -s -H "Private-Token: $token" "https://gitlab.com/api/v4/projects/$target_project_name" | cut -d'"' -f3 | sed 's/^:\([^,]*\),$/\1/')
   git_post_gitlab_set_assignee_ids_opt
-  git_post_gitlab_set_remove_source_branch_opt
 
-  result=$(curl -i -s -H "Private-Token: $token" -d "id=$id" -d "title=$title" -d "description=$description" -d "source_branch=$current" -d "target_branch=$parent" -d "target_project_id=$target_project_id" $assignee_ids_opt $remove_source_branch_opt "https://gitlab.com/api/v4/projects/$id/merge_requests")
+  result=$(curl -i -s -H "Private-Token: $token" -d "id=$id" -d "title=$title" -d "description=$description" -d "source_branch=$current" -d "target_branch=$parent" -d "target_project_id=$target_project_id" $assignee_ids_opt -d remove_source_branch=true "https://gitlab.com/api/v4/projects/$id/merge_requests")
 
   if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
     git_post_gitlab_read_token
@@ -74,11 +72,6 @@ git_post_gitlab_set_assignee_ids_opt(){
     assignee_ids_opt=${assignee_ids_opt# }
   else
     assignee_ids_opt="-d assignee_id=$(curl -s -H "Private-Token: $token" "https://gitlab.com/api/v4/user" | cut -d'"' -f3 | sed 's/^:\([^,]*\),$/\1/')"
-  fi
-}
-git_post_gitlab_set_remove_source_branch_opt(){
-  if [ -n "$GITLAB_REMOVE_SOURCE_BRANCH" ]; then
-    remove_source_branch_opt="-d remove_source_branch=true"
   fi
 }
 git_post_gitlab_get_token(){
