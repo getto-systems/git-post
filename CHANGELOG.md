@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 1.2.0
+
+- fix: ignore checkout error : See merge request getto-systems-base/labo/git/post!56
+
+
 ## Version : 1.1.0
 
 - fix: create-work-branch script : See merge request getto-systems-base/labo/git/post!54
