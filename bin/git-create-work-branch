@@ -71,7 +71,7 @@ git_create_work_branch_check_pub_merged(){
 }
 
 git_create_work_branch_new_pull_request(){
-  git checkout -b "${pub_branch}" &&
+  git checkout -b "${pub_branch}"
   git_create_work_branch_push_to_pub &&
   git post "${message}" "${parent_branch}" &&
   :
