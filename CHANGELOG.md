@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 1.3.0
+
+- fix: parent branch : See merge request getto-systems-base/labo/git/post!58
+
+
 ## Version : 1.2.0
 
 - fix: ignore checkout error : See merge request getto-systems-base/labo/git/post!56
