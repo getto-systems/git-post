@@ -12,8 +12,6 @@ git_create_work_branch_main(){
   local pub_branch
   local is_create_new_pull_request
 
-  parent_branch=$(git parent)
-
   git_create_work_branch_set_pub_branch
   git_create_work_branch_check_pub_merged
 
@@ -55,9 +53,11 @@ git_create_work_branch_set_pub_branch(){
   fi
 
   if [ -n "${is_create_new_pull_request}" ]; then
-    pub_branch=$(echo "$message" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
+    pub_branch=$(echo "${message}" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
+    parent_branch=${current_branch}
   else
     pub_branch=${current_branch}
+    parent_branch=$(git parent)
   fi
 }
 git_create_work_branch_check_pub_merged(){
