@@ -47,11 +47,6 @@ git_create_work_branch_set_pub_branch(){
     is_create_new_pull_request=true
   fi
 
-  # create new pull request if current branch is not pub's branch
-  if [ -z "$(git branch -r --list "${pub_remote}/${current_branch}")" ]; then
-    is_create_new_pull_request=true
-  fi
-
   if [ -n "${is_create_new_pull_request}" ]; then
     pub_branch=$(echo "${message}" | head -1 | sed -e "s/[^[:alnum:]]\+/-/g")
     parent_branch=${current_branch}
