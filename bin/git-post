@@ -34,7 +34,7 @@ git_post_main(){
     *https://*bitbucket.org* | *@bitbucket.org*)
       host=bitbucket
       ;;
-    *git@gitlab.com* | *https://*@gitlab.com*)
+    *git@gitlab.com* | *https://gitlab.com* | *https://*@gitlab.com*)
       host=gitlab
       ;;
     *)
