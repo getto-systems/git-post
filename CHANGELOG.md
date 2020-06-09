@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 1.4.0
+
+- fix: host detection : See merge request getto-systems-base/labo/git/post!61
+- fix: pub_branch detection : See merge request getto-systems-base/labo/git/post!60
+
+
 ## Version : 1.3.0
 
 - fix: parent branch : See merge request getto-systems-base/labo/git/post!58
