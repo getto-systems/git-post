@@ -3,8 +3,6 @@
 git_post_main(){
   local message
   local parent
-  local config_root
-  local config
   local remote
   local pub
   local user_name
@@ -21,10 +19,6 @@ git_post_main(){
     echo 'usage: git post <pull-request subject and body> <parent branch>'
     exit 1
   fi
-
-  config_root=$HOME/.git-post
-  mkdir -p $config_root
-  chmod 700 $config_root
 
   remote=$(git remote -v | grep origin.*fetch)
 
@@ -93,8 +87,6 @@ git_post_pull_request(){
   fi
 
   echo "send: $current -> $parent"
-
-  config=$config_root/$host-$(echo "${user_name}" | sed 's|/|-|')
 
   title=$(echo "$message" | head -1)
   description=$message
