@@ -1,5 +1,3 @@
-#!/bin/bash
-
 git_post_gitlab(){
   local id
   local target_project_name
@@ -24,7 +22,7 @@ git_post_gitlab_format(){
       ;;
   esac
   formatted=${formatted%.git}
-  formatted=${formatted//\//%2F}
+  formatted=$(echo "${formatted}" | sed 's|/|%2F|g')
 
   echo $formatted
 }
@@ -38,13 +36,8 @@ git_post_gitlab_request(){
 
   result=$(curl -i -s -H "Private-Token: $token" -d "id=$id" -d "title=$title" -d "description=$description" -d "source_branch=$current" -d "target_branch=$parent" -d "target_project_id=$target_project_id" $assignee_ids_opt -d remove_source_branch=true "https://gitlab.com/api/v4/projects/$id/merge_requests")
 
-  if [ -n "$(echo "$result" | grep "Status: 401 Unauthorized")" ]; then
-    git_post_gitlab_read_token
-    git_post_gitlab_request
-  else
-    echo "$result" | head -1
-    echo "$result" | grep '"message":' | sed 's/"message": "\(.*\)",\?$/\1/'
-  fi
+  echo "$result" | head -1
+  echo "$result" | grep '"message":' | sed 's/"message": "\(.*\)",\?$/\1/'
 }
 git_post_gitlab_set_assignee_ids_opt(){
   local user
@@ -80,15 +73,6 @@ git_post_gitlab_get_token(){
     return
   fi
 
-  if [ -f $config ]; then
-    token=$(cat $config)
-    return
-  fi
-
-  git_post_gitlab_read_token
-}
-git_post_gitlab_read_token(){
-  read -sp "personal access token for [$user_name]: " token
-  echo
-  echo $token > $config && chmod 600 $config
+  echo "GITLAB_ACCESS_TOKEN is empty"
+  exit 1
 }
