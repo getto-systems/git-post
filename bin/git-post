@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 git_post_main(){
   local message
@@ -11,14 +11,15 @@ git_post_main(){
   local host
 
   message=$1; shift
+  parent=$1; shift
+
   if [ -z "$message" ]; then
-    echo 'usage: git post <pull-request subject and body>'
+    echo 'usage: git post <pull-request subject and body> <parent branch>'
     exit 1
   fi
-
-  parent=$1; shift
   if [ -z "$parent" ]; then
-    parent=$(git parent)
+    echo 'usage: git post <pull-request subject and body> <parent branch>'
+    exit 1
   fi
 
   config_root=$HOME/.git-post

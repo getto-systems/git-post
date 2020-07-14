@@ -1,5 +1,3 @@
-#!/bin/bash
-
 git_post_gitlab(){
   local id
   local target_project_name

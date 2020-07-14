@@ -1,5 +1,3 @@
-#!/bin/bash
-
 git_post_github(){
   local data
   local token
