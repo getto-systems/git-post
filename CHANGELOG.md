@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 1.5.2
+
+- fix: gitlab ci : See merge request getto-systems-base/labo/git/post!72
+
+
 ## Version : 1.5.1
 
 
