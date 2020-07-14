@@ -80,7 +80,7 @@ image_push:
   stage: image_push
   only:
     refs:
-      - master@getto-systems-base/labo/git/post
+      - release@getto-systems-base/labo/git/post
     changes:
       - Dockerfile
   except:
@@ -127,7 +127,7 @@ release:
   stage: release
   only:
     refs:
-      - master@getto-systems-base/labo/git/post
+      - release@getto-systems-base/labo/git/post
     changes:
       - .release-version
   except:
@@ -143,7 +143,7 @@ release_success:
   stage: release_notify
   only:
     refs:
-      - master@getto-systems-base/labo/git/post
+      - release@getto-systems-base/labo/git/post
     changes:
       - .release-version
   except:
@@ -164,7 +164,7 @@ release_failure:
   stage: release_notify
   only:
     refs:
-      - master@getto-systems-base/labo/git/post
+      - release@getto-systems-base/labo/git/post
     changes:
       - .release-version
   except:
