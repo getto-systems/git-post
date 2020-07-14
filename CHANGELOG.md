@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version : 1.5.0
+
+- fix: gitlab ci : See merge request getto-systems-base/labo/git/post!68
+- fix: deploy : See merge request getto-systems-base/labo/git/post!66
+- fix: gitlabkci : See merge request getto-systems-base/labo/git/post!65
+- fix: gitlabkci : See merge request getto-systems-base/labo/git/post!64
+- fix: post : See merge request getto-systems-base/labo/git/post!63
+
+
 ## Version : 1.4.0
 
 - fix: host detection : See merge request getto-systems-base/labo/git/post!61
