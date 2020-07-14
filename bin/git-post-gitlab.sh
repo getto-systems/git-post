@@ -22,7 +22,7 @@ git_post_gitlab_format(){
       ;;
   esac
   formatted=${formatted%.git}
-  formatted=${formatted//\//%2F}
+  formatted=$(echo "${formatted}" | sed 's|/|%2F|')
 
   echo $formatted
 }

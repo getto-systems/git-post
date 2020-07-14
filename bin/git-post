@@ -10,8 +10,8 @@ git_post_main(){
   local user_name
   local host
 
-  message=$1; shift
-  parent=$1; shift
+  message=$1
+  parent=$2
 
   if [ -z "$message" ]; then
     echo 'usage: git post <pull-request subject and body> <parent branch>'
@@ -94,12 +94,12 @@ git_post_pull_request(){
 
   echo "send: $current -> $parent"
 
-  config=$config_root/$host-${user_name//\//-}
+  config=$config_root/$host-$(echo "${user_name}" | sed 's|/|-|')
 
   title=$(echo "$message" | head -1)
   description=$message
 
-  . git-post-$host
+  . git-post-${host}.sh
   git_post_$host
 }
 
