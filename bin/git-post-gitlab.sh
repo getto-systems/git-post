@@ -78,15 +78,6 @@ git_post_gitlab_get_token(){
     return
   fi
 
-  if [ -f $config ]; then
-    token=$(cat $config)
-    return
-  fi
-
-  git_post_gitlab_read_token
-}
-git_post_gitlab_read_token(){
-  read -sp "personal access token for [$user_name]: " token
-  echo
-  echo $token > $config && chmod 600 $config
+  echo "GITLAB_ACCESS_TOKEN is empty"
+  exit 1
 }
