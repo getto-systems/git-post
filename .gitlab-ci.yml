@@ -39,10 +39,13 @@ release:
       - triggers
       - schedules
 
+  image: buildpack-deps:buster-scm
+
   before_script:
-    - ./scripts/restore.sh
+    - apt-get update
+    - apt-get install -y python3-pip
+    - pip3 install awscli
   script:
-    - npm test
     - curl $TRELLIS_CI_BUMP_VERSION/push_tags.sh | sh
     - ./scripts/deploy.sh
 
